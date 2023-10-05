@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/thunderstore/RichDiscordPresence/discord-rpc.dll
+/thunderstore/RichDiscordPresence/RichDiscordPresence.dll
+/thunderstore/RichDiscordPresence.zip
