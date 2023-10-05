@@ -41,7 +41,7 @@ Best practice is to set name "Valheim".
 On the General Information you will find your APPLICATION ID. Copy it and set as ApplicationID in the mod settings.
 
 ### 2 - Upload application logo
-Get the Valheim logo file and upload it to Rich Presence -> Art Assets -> Add Image(s) with name "logo". The file name can differ if you need it as the default Large image is configurable on the mod settings.
+Get the [Valheim logo file](https://github.com/shudnal/RichDiscordPresence/blob/master/thunderstore/nexus/Valheim%20logo.png) and upload it to Rich Presence -> Art Assets -> Add Image(s) with name "logo". The file name can differ if you need it as the default Large image is configurable on the mod settings.
 
 ### 3 - Activate Rich Presence
 On the Discord client press the cog (User settings) near your name in left bottom part.
