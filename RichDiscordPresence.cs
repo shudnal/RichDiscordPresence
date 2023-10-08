@@ -16,13 +16,14 @@ namespace RichDiscordPresence
     {
         const string pluginID = "shudnal.RichDiscordPresence";
         const string pluginName = "Rich Discord Presence";
-        const string pluginVersion = "1.0.0";
+        const string pluginVersion = "1.0.1";
 
         private Harmony _harmony;
 
         private static ConfigEntry<bool> modEnabled;
         private static ConfigEntry<bool> loggingEnabled;
         private static ConfigEntry<string> ApplicationID;
+        private static ConfigEntry<string> localizationLanguage;
 
         private static ConfigEntry<string> msgMainMenu;
         private static ConfigEntry<string> msgSingleplayer;
@@ -146,6 +147,7 @@ namespace RichDiscordPresence
             modEnabled = Config.Bind("General", "Enabled", defaultValue: true, "Enable the mod.");
             loggingEnabled = Config.Bind("General", "Logging enabled", defaultValue: false, "Enable logging.");
             ApplicationID = Config.Bind("General", "Application ID", defaultValue: "", "The APPLICATION ID you get from discord developer portal -> Applications -> Your app -> General Information");
+            localizationLanguage = Config.Bind("General", "Loсalization language", defaultValue: "", "Specify language to make bosses, locations and biomes localized to it. If empty - current game language is used");
 
             msgMainMenu = Config.Bind("Messages", "State - Main menu", defaultValue: "Main Menu", "Message while in menu");
             msgSingleplayer = Config.Bind("Messages", "State - Singleplayer", defaultValue: "On their own", "Semicolon separated in singleplayer messages");
@@ -513,15 +515,17 @@ namespace RichDiscordPresence
                     string detailsString = GetRandomState(msgRoaming.Value);
                     if (showingBossHud)
                     {
+                        string bossName = EnemyHud.instance.GetActiveBoss().m_name;
+
                         detailsString = GetRandomState(msgBoss.Value);
-                        detailsBuilder.Append(EnemyHud.instance.GetActiveBoss().m_name);
+                        detailsBuilder.Append(localizationLanguage.Value.IsNullOrWhiteSpace() ? bossName : Localization.instance.TranslateSingleId(bossName, localizationLanguage.Value));
                         detailsBuilder.Append(": ");
                         detailsBuilder.Append(detailsString.IsNullOrWhiteSpace() ? "$menu_combat" : detailsString);
                     }
                     else if (showTrader.Value && activeTrader != null)
                     {
                         detailsString = GetRandomState(msgTrader.Value);
-                        detailsBuilder.Append(activeTrader.m_name);
+                        detailsBuilder.Append(localizationLanguage.Value.IsNullOrWhiteSpace() ? activeTrader.m_name : Localization.instance.TranslateSingleId(activeTrader.m_name, localizationLanguage.Value));
                         detailsBuilder.Append(": ");
                         detailsBuilder.Append(detailsString.IsNullOrWhiteSpace() ? "$npc_haldor_random_talk2" : detailsString);
                     }
@@ -538,7 +542,7 @@ namespace RichDiscordPresence
                                 dungeonName = gateway.m_enterText;
                         }
 
-                        detailsBuilder.Append(dungeonName);
+                        detailsBuilder.Append(localizationLanguage.Value.IsNullOrWhiteSpace() ? dungeonName : Localization.instance.TranslateSingleId(dungeonName, localizationLanguage.Value));
 
                         if (!detailsString.IsNullOrWhiteSpace())
                         {
@@ -559,7 +563,9 @@ namespace RichDiscordPresence
                             detailsString = biomeSpecific;
                         }
 
-                        detailsBuilder.Append("$biome_" + currentBiome.ToString().ToLower());
+                        string biomeName = "$biome_" + currentBiome.ToString().ToLower();
+
+                        detailsBuilder.Append(localizationLanguage.Value.IsNullOrWhiteSpace() ? biomeName : Localization.instance.TranslateSingleId(biomeName, localizationLanguage.Value));
 
                         if (!detailsString.IsNullOrWhiteSpace())
                         {

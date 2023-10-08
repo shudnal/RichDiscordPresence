@@ -112,5 +112,8 @@ https://valheim.thunderstore.io/package/Azumatt/Official_BepInEx_ConfigurationMa
 
 ## Changelog
 
+v 1.0.1
+* option to localize boss, biome and location names on selected language
+
 v 1.0.0
 * Initial release
