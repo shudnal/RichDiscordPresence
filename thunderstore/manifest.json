@@ -1,6 +1,6 @@
 {
   "name": "RichDiscordPresence",
-  "version_number": "1.0.1",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/shudnal/RichDiscordPresence",
   "description": "Rich Presence in Discord based on your ingame state.",
   "dependencies": ["denikson-BepInExPack_Valheim-5.4.2200"]
