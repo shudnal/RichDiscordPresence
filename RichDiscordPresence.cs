@@ -16,7 +16,7 @@ namespace RichDiscordPresence
     {
         const string pluginID = "shudnal.RichDiscordPresence";
         const string pluginName = "Rich Discord Presence";
-        const string pluginVersion = "1.0.2";
+        const string pluginVersion = "1.0.3";
 
         private Harmony _harmony;
 
@@ -105,10 +105,7 @@ namespace RichDiscordPresence
                 return;
             }
 
-            if (SteamManager.Initialized) 
-                DiscordRpc.Initialize(ApplicationID.Value, ref handlers, true, SteamManager.APP_ID.ToString());
-            else
-                DiscordRpc.Initialize(ApplicationID.Value, ref handlers, true, "");
+            DiscordRpc.Initialize(ApplicationID.Value, ref handlers, true, "");
 
             Game.isModded = true;
 

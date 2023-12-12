@@ -112,6 +112,9 @@ https://valheim.thunderstore.io/package/Azumatt/Official_BepInEx_ConfigurationMa
 
 ## Changelog
 
+v 1.0.3
+* got rid of steam id entirely
+
 v 1.0.2
 * non steam PC version support
 
