@@ -16,7 +16,7 @@ namespace RichDiscordPresence
     {
         const string pluginID = "shudnal.RichDiscordPresence";
         const string pluginName = "Rich Discord Presence";
-        const string pluginVersion = "1.0.3";
+        const string pluginVersion = "1.0.4";
 
         private Harmony _harmony;
 
@@ -398,15 +398,18 @@ namespace RichDiscordPresence
         [HarmonyPatch(typeof(Player), nameof(Player.UpdateEnvStatusEffects))]
         private class Player_UpdateEnvStatusEffects_Roaming
         {
-            private static void Postfix(Player __instance, bool ___m_safeInHome)
+            private static void Postfix(Player __instance)
             {
                 if (!modEnabled.Value) return;
 
                 if (Player.m_localPlayer != __instance) return;
 
-                if (safeInHome == (___m_safeInHome && __instance.GetBaseValue() >= safeInHomeBaseValue.Value)) return;
+                bool safeInHomeStatus = __instance.IsSafeInHome() && __instance.GetBaseValue() >= safeInHomeBaseValue.Value;
 
-                safeInHome = (___m_safeInHome && __instance.GetBaseValue() >= safeInHomeBaseValue.Value);
+                if (safeInHome == safeInHomeStatus) 
+                    return;
+
+                safeInHome = safeInHomeStatus;
 
                 LogInfo("Player.UpdateEnvStatusEffects");
                 SetPresence(updateState: true);
@@ -504,9 +507,14 @@ namespace RichDiscordPresence
 
             if (updateState)
             {
-                if (FejdStartup.instance != null || Player.m_localPlayer == null)
+                if (FejdStartup.instance != null)
                 {
                     details = msgMainMenu.Value;
+                    state = "";
+                }
+                else if (Player.m_localPlayer == null)
+                {
+                    details = "";
                     state = "";
                 }
                 else

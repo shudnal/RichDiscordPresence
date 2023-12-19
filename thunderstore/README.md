@@ -112,6 +112,10 @@ https://valheim.thunderstore.io/package/Azumatt/Official_BepInEx_ConfigurationMa
 
 ## Changelog
 
+v 1.0.4
+* little fix for safe in home and main menu status calculation
+* patch 0.217.38
+
 v 1.0.3
 * got rid of steam id entirely
 
