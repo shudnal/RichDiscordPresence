@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Text;
 using System.Linq;
 using BepInEx;
-using BepInEx.Logging;
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
@@ -12,11 +11,12 @@ using UnityEngine;
 namespace RichDiscordPresence
 {
     [BepInPlugin(pluginID, pluginName, pluginVersion)]
+    [BepInProcess("valheim.exe")]
     public class RichDiscordPresence : BaseUnityPlugin
     {
         const string pluginID = "shudnal.RichDiscordPresence";
         const string pluginName = "Rich Discord Presence";
-        const string pluginVersion = "1.0.4";
+        const string pluginVersion = "1.0.5";
 
         private Harmony _harmony;
 
@@ -87,12 +87,6 @@ namespace RichDiscordPresence
 
         private void Awake()
         {
-            if (IsDedicated())
-            {
-                instance.Logger.LogWarning("Dedicated server. Loading skipped.");
-                return;
-            }
-
             _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), pluginID);
 
             instance = this;
@@ -133,13 +127,6 @@ namespace RichDiscordPresence
                 instance.Logger.LogInfo(data);
         }
         
-        public static bool IsDedicated()
-        {
-            var method = typeof(ZNet).GetMethod(nameof(ZNet.IsDedicated), BindingFlags.Public | BindingFlags.Instance);
-            var openDelegate = (Func<ZNet, bool>)Delegate.CreateDelegate(typeof(Func<ZNet, bool>), method);
-            return openDelegate(null);
-        }
-
         private void ConfigInit()
         {
             Config.Bind("General", "NexusID", 2555, "Nexus mod ID for updates");
@@ -187,14 +174,20 @@ namespace RichDiscordPresence
             siTextDefault = Config.Bind("Images - Default", "Small image text", defaultValue: "", "Default Small image text");
 
             liDescriptions = Config.Bind("Images - Descriptions", "Large images descriptions", defaultValue: "", "Semicolon separated list of key-text Large Image descriptions where key is what's before : in details string. More at mod's page.");
-            liDescriptions.SettingChanged += ImageDescriptions_SettingChanged;
+            liDescriptions.SettingChanged += (sender, args) => UpdateImageDescription();
             siDescriptions = Config.Bind("Images - Descriptions", "Small images descriptions", defaultValue: "", "Semicolon separated list of key-text Small Image descriptions where key is what's after : in details string. More at mod's page.");
-            siDescriptions.SettingChanged += ImageDescriptions_SettingChanged;
-        }
+            siDescriptions.SettingChanged += (sender, args) => UpdateImageDescription();
 
-        private void ImageDescriptions_SettingChanged(object sender, EventArgs e)
-        {
-            UpdateImageDescription();
+            new Terminal.ConsoleCommand("richdiscordpresence", "Force Rich Presence update", args =>
+            {
+                if (!modEnabled.Value)
+                {
+                    instance.Logger.LogInfo("Mod disabled");
+                    return;
+                }
+
+                SetPresence(updateState: true);
+            });
         }
 
         private static void UpdateImageDescription()
@@ -219,29 +212,6 @@ namespace RichDiscordPresence
                 LogInfo($"Loaded image description: {keytext.Substring(0, pos).Trim()}, {keytext.Substring(pos + 1).Trim()}");
 
                 imageDescription.Add(keytext.Substring(0, pos).Trim(), keytext.Substring(pos + 1).Trim());
-            }
-        }
-
-        [HarmonyPatch(typeof(Terminal), nameof(Terminal.InitTerminal))]
-        public static class Terminal_Patch
-        {
-            public static void Postfix()
-            {
-                new Terminal.ConsoleCommand("richdiscordpresence", "Force Rich Presence update", args =>
-                {
-                    ForceUpdatePresence();
-                });
-            }
-
-            public static void ForceUpdatePresence()
-            {
-                if (!modEnabled.Value)
-                {
-                    instance.Logger.LogInfo("Mod disabled");
-                    return;
-                }
-
-                SetPresence(updateState: true);
             }
         }
 

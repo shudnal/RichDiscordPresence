@@ -71,10 +71,12 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)\$(TargetFileName)" "F:\Steam\steamapps\common\Valheim\BepInEx\plugins\RichDiscordPresence\" /q /y /i
-xcopy "$(TargetDir)\Libs\discord-rpc.dll" "F:\Steam\steamapps\common\Valheim\BepInEx\plugins\RichDiscordPresence\" /q /y /i
+    <PostBuildEvent>xcopy "$(TargetDir)\$(TargetFileName)" "F:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(SolutionName)\" /q /y /i
+xcopy "$(TargetDir)\Libs\discord-rpc.dll" "F:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(SolutionName)\" /q /y /i
 
-xcopy "$(TargetDir)\$(TargetFileName)" "$(ProjectDir)\thunderstore\RichDiscordPresence\" /q /y /i
-xcopy "$(TargetDir)\Libs\discord-rpc.dll" "$(ProjectDir)\thunderstore\RichDiscordPresence\" /q /y /i</PostBuildEvent>
+xcopy "$(TargetDir)\$(TargetFileName)" "$(ProjectDir)\package\thunderstore\$(SolutionName)\$(SolutionName)\" /q /y /i
+xcopy "$(TargetDir)\Libs\discord-rpc.dll" "$(ProjectDir)\package\thunderstore\$(SolutionName)\$(SolutionName)\" /q /y /i
+
+if $(ConfigurationName) == Debug (powershell Compress-Archive -Path '$(ProjectDir)\package\thunderstore\$(SolutionName)\*' -DestinationPath '$(ProjectDir)\package\thunderstore\$(SolutionName).zip' -Force)</PostBuildEvent>
   </PropertyGroup>
 </Project>
