@@ -18,7 +18,7 @@ namespace RichDiscordPresence
         const string pluginName = "Rich Discord Presence";
         const string pluginVersion = "1.0.5";
 
-        private Harmony _harmony;
+        private Harmony harmony = new Harmony(pluginID);
 
         private static ConfigEntry<bool> modEnabled;
         private static ConfigEntry<bool> loggingEnabled;
@@ -87,7 +87,7 @@ namespace RichDiscordPresence
 
         private void Awake()
         {
-            _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), pluginID);
+            harmony.PatchAll();
 
             instance = this;
 
@@ -109,9 +109,10 @@ namespace RichDiscordPresence
         private void OnDestroy()
         {
             Config.Save();
-            _harmony?.UnpatchSelf();
+            instance = null;
+            harmony?.UnpatchSelf();
         }
-        
+
         private void OnDisable()
         {
             if (modEnabled.Value)
@@ -515,7 +516,7 @@ namespace RichDiscordPresence
                         Location location = Location.GetZoneLocation(Player.m_localPlayer.transform.position);
                         if (location != null)
                         {
-                            Teleport gateway = location.GetComponentsInChildren<Teleport>().First(tp => !tp.m_enterText.IsNullOrWhiteSpace());
+                            Teleport gateway = location.GetComponentsInChildren<Teleport>().Where(tp => !tp.m_enterText.IsNullOrWhiteSpace()).FirstOrDefault();
                             if (gateway != null)
                                 dungeonName = gateway.m_enterText;
                         }
