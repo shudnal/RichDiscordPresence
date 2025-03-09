@@ -1,3 +1,7 @@
+# 1.0.6
+* patch 0.220.3
+* ServerSync updated
+
 # 1.0.5
 * terminal command fix
 

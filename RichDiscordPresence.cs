@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using System.Linq;
 using BepInEx;
@@ -14,9 +13,9 @@ namespace RichDiscordPresence
     [BepInProcess("valheim.exe")]
     public class RichDiscordPresence : BaseUnityPlugin
     {
-        const string pluginID = "shudnal.RichDiscordPresence";
-        const string pluginName = "Rich Discord Presence";
-        const string pluginVersion = "1.0.5";
+        public const string pluginID = "shudnal.RichDiscordPresence";
+        public const string pluginName = "Rich Discord Presence";
+        public const string pluginVersion = "1.0.6";
 
         private Harmony harmony = new Harmony(pluginID);
 

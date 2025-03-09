@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RichDiscordPresence</RootNamespace>
     <AssemblyName>RichDiscordPresence</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -38,7 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>F:\Steam\steamapps\common\Valheim\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>
+        ..\Assemblies\Harmony\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="assembly_guiutils_publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -55,15 +56,21 @@
     <Reference Include="BepInEx">
       <HintPath>F:\Steam\steamapps\common\Valheim\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="netstandard">
+      <HintPath>..\Assemblies\stable\netstandard.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>F:\Steam\steamapps\common\Valheim\unstripped_corlib\UnityEngine.dll</HintPath>
+      <HintPath>
+        ..\Assemblies\stable\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>F:\Steam\steamapps\common\Valheim\unstripped_corlib\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>
+        ..\Assemblies\stable\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\Steam\steamapps\common\Valheim\unstripped_corlib\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>
+        ..\Assemblies\stable\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -74,12 +81,13 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)\$(TargetFileName)" "F:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(SolutionName)\" /q /y /i
-xcopy "$(TargetDir)\Libs\discord-rpc.dll" "F:\Steam\steamapps\common\Valheim\BepInEx\plugins\$(SolutionName)\" /q /y /i
+      <PostBuildEvent>xcopy "$(TargetDir)\$(TargetFileName)" "$(ProjectDir)package\thunderstore\$(SolutionName)\$(SolutionName)\" /q /y /i
+xcopy "$(TargetDir)\Libs\discord-rpc.dll" "$(ProjectDir)package\thunderstore\$(SolutionName)\$(SolutionName)\" /q /y /i
 
-xcopy "$(TargetDir)\$(TargetFileName)" "$(ProjectDir)\package\thunderstore\$(SolutionName)\$(SolutionName)\" /q /y /i
-xcopy "$(TargetDir)\Libs\discord-rpc.dll" "$(ProjectDir)\package\thunderstore\$(SolutionName)\$(SolutionName)\" /q /y /i
+if $(ConfigurationName) == Debug (powershell Compress-Archive -Path '$(ProjectDir)\package\thunderstore\$(SolutionName)\*' -DestinationPath '$(ProjectDir)\package\thunderstore\$(SolutionName).zip' -Force)
 
-if $(ConfigurationName) == Debug (powershell Compress-Archive -Path '$(ProjectDir)\package\thunderstore\$(SolutionName)\*' -DestinationPath '$(ProjectDir)\package\thunderstore\$(SolutionName).zip' -Force)</PostBuildEvent>
-  </PropertyGroup>
+xcopy "$(TargetDir)\$(TargetFileName)" "D:\r2modman\Valheim\profiles\beta\BepInEx\plugins\shudnal-$(SolutionName)\" /q /y /i
+xcopy "$(TargetDir)\Libs\discord-rpc.dll" "D:\r2modman\Valheim\profiles\beta\BepInEx\plugins\shudnal-$(SolutionName)\" /q /y /i
+</PostBuildEvent>
+</PropertyGroup>
 </Project>
