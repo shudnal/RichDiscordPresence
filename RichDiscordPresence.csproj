@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <ReferencePath>D:\work\source\repos\Assemblies\stable\publicized_assemblies\;D:\work\source\repos\Assemblies\stable\;D:\work\source\repos\Assemblies\Harmony\;D:\work\source\repos\Assemblies\Managers\</ReferencePath>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1C31FC1F-1533-4B90-8A55-FEEABEA1CF7A}</ProjectGuid>
@@ -38,45 +39,44 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>
-        ..\Assemblies\Harmony\0Harmony.dll</HintPath>
+      <HintPath>..\Assemblies\Harmony\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="assembly_guiutils_publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="assembly_guiutils, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\stable\publicized_assemblies\assembly_guiutils_publicized.dll</HintPath>
+      <HintPath Condition="Exists('..\Assemblies\stable\publicized_assemblies\assembly_guiutils.dll')">..\Assemblies\stable\publicized_assemblies\assembly_guiutils.dll</HintPath>
     </Reference>
-    <Reference Include="assembly_utils_publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="assembly_utils, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\stable\publicized_assemblies\assembly_utils_publicized.dll</HintPath>
+      <HintPath Condition="Exists('..\Assemblies\stable\publicized_assemblies\assembly_utils.dll')">..\Assemblies\stable\publicized_assemblies\assembly_utils.dll</HintPath>
     </Reference>
-    <Reference Include="assembly_valheim_publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="assembly_valheim, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\stable\publicized_assemblies\assembly_valheim_publicized.dll</HintPath>
+      <HintPath Condition="Exists('..\Assemblies\stable\publicized_assemblies\assembly_valheim.dll')">..\Assemblies\stable\publicized_assemblies\assembly_valheim.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>F:\Steam\steamapps\common\Valheim\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\Assemblies\Harmony\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>..\Assemblies\stable\netstandard.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>
-        ..\Assemblies\stable\UnityEngine.dll</HintPath>
+      <HintPath>..\Assemblies\stable\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>
-        ..\Assemblies\stable\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\Assemblies\stable\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>
-        ..\Assemblies\stable\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\Assemblies\stable\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Libs\discord-rpc.dll">
+    <Content Include="Libs\discord-rpc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

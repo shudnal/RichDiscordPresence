@@ -41,7 +41,7 @@ Best practice is to set name "Valheim".
 On the General Information you will find your APPLICATION ID. Copy it and set as ApplicationID in the mod settings.
 
 ### 2 - Upload application logo
-Get the [Valheim logo file](https://github.com/shudnal/RichDiscordPresence/blob/master/thunderstore/nexus/Valheim%20logo.png) and upload it to Rich Presence -> Art Assets -> Add Image(s) with name "logo". The file name can differ if you need it as the default Large image is configurable on the mod settings.
+Upload the bundled `package/thunderstore/RichDiscordPresence/icon.png`, or a square image of your choice, in Rich Presence -> Art Assets -> Add Image(s) with the name "logo". The asset name can differ because the default large image is configurable in the mod settings.
 
 ### 3 - Activate Rich Presence
 On the Discord client press the cog (User settings) near your name in left bottom part.
@@ -106,8 +106,14 @@ https://www.nexusmods.com/site/mods/529
 
 https://valheim.thunderstore.io/package/Azumatt/Official_BepInEx_ConfigurationManager/
 
-## Mirrors
+## Dependencies
 
-[Nexus](https://www.nexusmods.com/valheim/mods/2555)
+- [BepInExPack Valheim 5.4.2350](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/)
 
-[Thunderstore](https://valheim.thunderstore.io/package/shudnal/RichDiscordPresence/)
+This mod is client-only. All settings, including the Discord Application ID and privacy options, are local and are not synchronized with the game server. No server installation or configuration synchronization library is required.
+
+## Donation
+[Buy Me a Coffee](https://buymeacoffee.com/shudnal)
+
+## Discord
+[Join server](https://discord.gg/e3UtQB8GFK)

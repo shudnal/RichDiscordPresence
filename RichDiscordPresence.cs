@@ -15,7 +15,7 @@ namespace RichDiscordPresence
     {
         public const string pluginID = "shudnal.RichDiscordPresence";
         public const string pluginName = "Rich Discord Presence";
-        public const string pluginVersion = "1.0.6";
+        public const string pluginVersion = "1.0.7";
 
         private Harmony harmony = new Harmony(pluginID);
 
@@ -129,12 +129,11 @@ namespace RichDiscordPresence
         
         private void ConfigInit()
         {
-            Config.Bind("General", "NexusID", 2555, "Nexus mod ID for updates");
 
             modEnabled = Config.Bind("General", "Enabled", defaultValue: true, "Enable the mod.");
             loggingEnabled = Config.Bind("General", "Logging enabled", defaultValue: false, "Enable logging.");
             ApplicationID = Config.Bind("General", "Application ID", defaultValue: "", "The APPLICATION ID you get from discord developer portal -> Applications -> Your app -> General Information");
-            localizationLanguage = Config.Bind("General", "Loсalization language", defaultValue: "", "Specify language to make bosses, locations and biomes localized to it. If empty - current game language is used");
+            localizationLanguage = Config.Bind("General", "Localization language", defaultValue: "", "Specify language to make bosses, locations and biomes localized to it. If empty - current game language is used");
 
             msgMainMenu = Config.Bind("Messages", "State - Main menu", defaultValue: "Main Menu", "Message while in menu");
             msgSingleplayer = Config.Bind("Messages", "State - Singleplayer", defaultValue: "On their own", "Semicolon separated in singleplayer messages");
@@ -583,7 +582,7 @@ namespace RichDiscordPresence
             if (imageDescription.Count > 0)
             {
                 string[] detailsList = details.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                if (imageDescription.ContainsKey(detailsList[0].Trim().Replace(" ", "_").ToLower()))
+                if (detailsList.Length > 0 && imageDescription.ContainsKey(detailsList[0].Trim().Replace(" ", "_").ToLower()))
                 {
                     liKey = detailsList[0].Trim().Replace(" ", "_").ToLower();
                     liText = imageDescription[liKey];
@@ -598,7 +597,16 @@ namespace RichDiscordPresence
                 }
             }
 
-            LogInfo($"Details: \"{details}\"{(!liKey.IsNullOrWhiteSpace() ? ", Large Image: " + liKey : String.Empty)}{(!liText.IsNullOrWhiteSpace() ? ", Large Text: \"" + liText + "\"": String.Empty)}{(!siKey.IsNullOrWhiteSpace() ? ", Small Image: " + siKey : String.Empty)}{(!siText.IsNullOrWhiteSpace() ? ", Small Text: \"" + siText + "\"" : String.Empty)}");
+            string logMessage = "Details: \"" + details + "\"";
+            if (!liKey.IsNullOrWhiteSpace())
+                logMessage += ", Large Image: " + liKey;
+            if (!liText.IsNullOrWhiteSpace())
+                logMessage += ", Large Text: \"" + liText + "\"";
+            if (!siKey.IsNullOrWhiteSpace())
+                logMessage += ", Small Image: " + siKey;
+            if (!siText.IsNullOrWhiteSpace())
+                logMessage += ", Small Text: \"" + siText + "\"";
+            LogInfo(logMessage);
 
             try
             {

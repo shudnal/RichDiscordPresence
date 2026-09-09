@@ -1,3 +1,7 @@
+# 1.0.7
+* Updated for the Valheim 1.0.7 release.
+* Updated the required BepInExPack Valheim dependency to 5.4.2350.
+
 # 1.0.6
 * patch 0.220.3
 * ServerSync updated
